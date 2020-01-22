@@ -84,33 +84,14 @@ void getStats(string name) {
 void create(string name) {
     ofstream outFile;
     string fileName = name + ".txt";
-    int str, dex, cons, intel, wisd, cha, init, ac;
+    int val;/*str, dex, cons, intel, wisd, cha, init, ac;*/
     outFile.open(fileName);
     outFile << name << endl;
-    cout << "Strength: ";
-    cin >> str;
-    outFile << str << endl;
-    cout << "Dexterity: ";
-    cin >> dex;
-    outFile << dex << endl;
-    cout << "Constitution: ";
-    cin >> cons;
-    outFile << cons << endl;
-    cout << "Intelligence: ";
-    cin >> intel;
-    outFile << intel << endl;
-    cout << "Wisdom: ";
-    cin >> wisd;
-    outFile << wisd << endl;
-    cout << "Charisma: ";
-    cin >> cha;
-    outFile << cha << endl;
-    cout << "Initiative: ";
-    cin >> init;
-    outFile << init << endl;
-    cout << "Armor Class: ";
-    cin >> ac;
-    outFile << ac << endl;
+    for(int i=1; i <= (NUM_STATS-1); i++) {
+        cout << STATS[i] << ": ";
+        cin >> val;
+        outFile << val << endl;
+    }
     outFile.close();
     cin.ignore(1);
 }
