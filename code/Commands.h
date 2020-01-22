@@ -18,6 +18,19 @@
 
 using namespace std;
 
+#define NUM_STATS 9
+string STATS[NUM_STATS] = {
+    "NAME",
+    "STRENGTH",
+    "DEXTERITY",
+    "CONSTITUTION",
+    "INTELLIGENCE",
+    "WISDOM",
+    "CHARISMA",
+    "INITIATIVE",
+    "ARMOR CLASS"
+};
+
 int d4() {
     srand(time(0));
     return rand() % 4 + 1;;
@@ -46,20 +59,64 @@ int d100() {
     srand(time(0));
     return rand() % 100;
 }
-void testFileInput() {
+void getStats(string name) {
+    int i=0;
     ifstream inFile;
-    string val;
-    
-    inFile.open("Data.txt");
+    string val, fileName = name + ".txt";
+    inFile.open(fileName);
+    if(!inFile) {
+        cout << "Character not found" << endl;
+        return;
+    }
     inFile >> val;
-    cout << val << endl;
+    while(inFile) {
+        if(i == 7) {
+            cout << STATS[i] << ": +" << val << endl;
+        }
+        else {
+            cout << STATS[i] << ": " << val << endl;
+        }
+        inFile >> val;
+        i++;
+    }
     inFile.close();
 }
-void create() {
-    
+void create(string name) {
+    ofstream outFile;
+    string fileName = name + ".txt";
+    int str, dex, cons, intel, wisd, cha, init, ac;
+    outFile.open(fileName);
+    outFile << name << endl;
+    cout << "Strength: ";
+    cin >> str;
+    outFile << str << endl;
+    cout << "Dexterity: ";
+    cin >> dex;
+    outFile << dex << endl;
+    cout << "Constitution: ";
+    cin >> cons;
+    outFile << cons << endl;
+    cout << "Intelligence: ";
+    cin >> intel;
+    outFile << intel << endl;
+    cout << "Wisdom: ";
+    cin >> wisd;
+    outFile << wisd << endl;
+    cout << "Charisma: ";
+    cin >> cha;
+    outFile << cha << endl;
+    cout << "Initiative: ";
+    cin >> init;
+    outFile << init << endl;
+    cout << "Armor Class: ";
+    cin >> ac;
+    outFile << ac << endl;
+    outFile.close();
+    cin.ignore(1);
 }
 
-int RunCommand(string cmd) {
+
+int RunCommand(string cmd, string arg1, int argc) {
     if(cmd == "d4" || cmd == "D4") {
         cout << d4() << endl;
     }
@@ -81,8 +138,20 @@ int RunCommand(string cmd) {
     else if(cmd == "d100" || cmd == "D100") {
         cout << d100() << endl;
     }
-    else if(cmd == "testFileInput") {
-        testFileInput();
+    else if(cmd == "get" || cmd == "Get" || cmd == "GET") {
+        if(argc < 2)
+            cout << "Usage: get <Character Name>" << endl;
+        else {
+            getStats(arg1);
+        }
+    }
+    else if(cmd == "create" || cmd == "Create" || cmd == "CREATE") {
+        if(argc < 2)
+            cout << "Usage: create <Character Name>" << endl;
+        else {
+            create(arg1);
+            return 0;
+        }
     }
     /*else if(cmd == "clear" || cmd == "Clear" || cmd == "CLEAR" || cmd == "cls" || cmd == "Cls" || cmd == "CLS") {
         clear();
@@ -90,8 +159,11 @@ int RunCommand(string cmd) {
     else if(cmd == "exit" || cmd == "Exit" || cmd == "EXIT") {
         return 1;
     }
+    else if(cmd == "" || cmd == " ") {
+        return 0;
+    }
     else {
-        cout << "Unknown command" << endl;
+        cout << "Unknown command: " << cmd << endl;
     }
     return 0;
 }

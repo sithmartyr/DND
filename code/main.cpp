@@ -26,8 +26,9 @@ int GetArraySize(string str) {
     return number_of_spaces;
 }
 
-int main(int argc, const char * argv[]) {
+int main() {
     string input;
+    int argc;
     while(1) {
         cout << ">";
         getline(cin, input);
@@ -41,6 +42,7 @@ int main(int argc, const char * argv[]) {
         while(getline(ss, token, ' ')) {
             command[i] = token;
             i++;
+            argc = i;
         }
         for(i=0; ; i++) {
             if(command[i] == "")
@@ -49,7 +51,7 @@ int main(int argc, const char * argv[]) {
                 cout << cmd[i] << endl;*/
         }
         cout << "\n";
-        if(RunCommand(command[0]) == 1) {
+        if(RunCommand(command[0], command[1], argc) == 1) {
             return 0;
         }
         cout << "\n";
