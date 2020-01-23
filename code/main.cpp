@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-//#include <time.h>
 
 #include "Commands.h"
 
@@ -47,8 +46,6 @@ int main() {
         for(i=0; ; i++) {
             if(command[i] == "")
                 break;
-            /*else
-                cout << cmd[i] << endl;*/
         }
         cout << "\n";
         if(RunCommand(command[0], command[1], argc) == 1) {
@@ -56,5 +53,4 @@ int main() {
         }
         cout << "\n";
     }
-    //return 0;
 }

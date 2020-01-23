@@ -12,15 +12,17 @@
 
 #endif /* Commands_h */
 
+#include <iostream>
 #include <time.h>
 #include <fstream>
-//#include <curses.h>
+#include <sstream>
 
 using namespace std;
 
-#define NUM_STATS 9
+#define NUM_STATS 10
 string STATS[NUM_STATS] = {
     "NAME",
+    "LEVEL",
     "STRENGTH",
     "DEXTERITY",
     "CONSTITUTION",
@@ -31,7 +33,7 @@ string STATS[NUM_STATS] = {
     "ARMOR CLASS"
 };
 
-#define NUM_COMMANDS 10
+#define NUM_COMMANDS 11
 string COMMANDS[NUM_COMMANDS] = {
     "D4 - Roll a random value between 1 and 4",
     "D6 - Roll a random value between 1 and 6",
@@ -41,6 +43,7 @@ string COMMANDS[NUM_COMMANDS] = {
     "D20 - Roll a random value between 1 and 20",
     "D100 - Roll a random value between 1 and 100",
     "GET - Get the stats for a specified character",
+    "ADLEVEL - Increment the level value for a specified character",
     "CREATE - Create a new character",
     "HELP - Show this help prompt"
 };
@@ -84,7 +87,7 @@ void get(string name) {
     }
     inFile >> val;
     while(inFile) {
-        if(i == 7) {
+        if(i == 8) {
             cout << STATS[i] << ": +" << val << endl;
         }
         else {
@@ -95,10 +98,46 @@ void get(string name) {
     }
     inFile.close();
 }
+void adlevel(string name) {
+    int i=0;
+    ifstream inFile;
+    int newStats[10];
+    string oldStat, fileName = name + ".txt";
+    inFile.open(fileName);
+    if(!inFile) {
+        cout << "Character not found" << endl;
+        return;
+    }
+    inFile >> oldStat;
+    string charName = oldStat;
+    while(inFile) {
+        stringstream ss_oldStat(oldStat);
+        ss_oldStat >> newStats[i];
+        if(i == 1) {
+            newStats[i] = newStats[i] + 1;
+            //cout << charName << " - " << "NEW LEVEL: " << newStats[i] << endl;
+        }
+        /*else {
+            cout << "TEST: " << newStats[i] << endl;
+        }*/
+        inFile >> oldStat;
+        i++;
+    }
+    inFile.close();
+    remove(fileName.c_str());
+    ofstream outFile;
+    outFile.open(fileName);
+    outFile << charName << endl;
+    for(int x=1; x <= NUM_STATS-1; x++) {
+        outFile << newStats[x] << endl;
+    }
+    outFile.close();
+    get(charName);
+}
 void create(string name) {
     ofstream outFile;
     string fileName = name + ".txt";
-    int val;/*str, dex, cons, intel, wisd, cha, init, ac;*/
+    int val;
     outFile.open(fileName);
     outFile << name << endl;
     for(int i=1; i <= (NUM_STATS-1); i++) {
@@ -143,6 +182,13 @@ int RunCommand(string cmd, string arg1, int argc) {
             cout << "Usage: get <Character Name>" << endl;
         else {
             get(arg1);
+        }
+    }
+    else if(cmd == "adlevel" || cmd == "Adlevel" || cmd == "ADLEVEL") {
+        if(argc < 2)
+            cout << "Usage: adlevel <Character Name>" << endl;
+        else {
+            adlevel(arg1);
         }
     }
     else if(cmd == "create" || cmd == "Create" || cmd == "CREATE") {
