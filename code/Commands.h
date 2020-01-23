@@ -31,6 +31,20 @@ string STATS[NUM_STATS] = {
     "ARMOR CLASS"
 };
 
+#define NUM_COMMANDS 10
+string COMMANDS[NUM_COMMANDS] = {
+    "D4 - Roll a random value between 1 and 4",
+    "D6 - Roll a random value between 1 and 6",
+    "D8 - Roll a random value between 1 and 8",
+    "D10 - Roll a random value between 1 and 10",
+    "D12 - Roll a random value between 1 and 12",
+    "D20 - Roll a random value between 1 and 20",
+    "D100 - Roll a random value between 1 and 100",
+    "GET - Get the stats for a specified character",
+    "CREATE - Create a new character",
+    "HELP - Show this help prompt"
+};
+
 int d4() {
     srand(time(0));
     return rand() % 4 + 1;;
@@ -59,7 +73,7 @@ int d100() {
     srand(time(0));
     return rand() % 100;
 }
-void getStats(string name) {
+void get(string name) {
     int i=0;
     ifstream inFile;
     string val, fileName = name + ".txt";
@@ -95,6 +109,11 @@ void create(string name) {
     outFile.close();
     cin.ignore(1);
 }
+void help() {
+    for(int i=0; i <= NUM_COMMANDS; i++) {
+        cout << COMMANDS[i] << endl;
+    }
+}
 
 
 int RunCommand(string cmd, string arg1, int argc) {
@@ -123,7 +142,7 @@ int RunCommand(string cmd, string arg1, int argc) {
         if(argc < 2)
             cout << "Usage: get <Character Name>" << endl;
         else {
-            getStats(arg1);
+            get(arg1);
         }
     }
     else if(cmd == "create" || cmd == "Create" || cmd == "CREATE") {
@@ -137,6 +156,9 @@ int RunCommand(string cmd, string arg1, int argc) {
     /*else if(cmd == "clear" || cmd == "Clear" || cmd == "CLEAR" || cmd == "cls" || cmd == "Cls" || cmd == "CLS") {
         clear();
     }*/
+    else if(cmd == "help" || cmd == "Help" || cmd == "HELP") {
+        help();
+    }
     else if(cmd == "exit" || cmd == "Exit" || cmd == "EXIT") {
         return 1;
     }
