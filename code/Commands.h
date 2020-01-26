@@ -13,27 +13,56 @@
 #endif /* Commands_h */
 
 #include <iostream>
+#include <string>
 #include <time.h>
 #include <fstream>
 #include <sstream>
 
 using namespace std;
 
-#define NUM_STATS 10
+#define NUM_STATS 16
 string STATS[NUM_STATS] = {
     "NAME",
     "LEVEL",
     "STRENGTH",
+    "STRENGTH BONUS",
     "DEXTERITY",
+    "DEXTERITY BONUS",
     "CONSTITUTION",
+    "CONSTITUTION BONUS",
     "INTELLIGENCE",
+    "INTELLIGENCE BONUS",
     "WISDOM",
+    "WISDOM BONUS",
     "CHARISMA",
+    "CHARISMA BONUS",
     "INITIATIVE",
     "ARMOR CLASS"
 };
 
-#define NUM_COMMANDS 11
+#define NUM_SKILLS 18
+string SKILLS[NUM_SKILLS] = {
+    "ACROBATICS",
+    "ANIMAL HANDLING",
+    "ARCANA",
+    "ATHLETICS",
+    "DECEPTION",
+    "HISTORY",
+    "INSIGHT",
+    "INTIMIDATION",
+    "INVESTIGATION",
+    "MEDICINE",
+    "NATURE",
+    "PERCEPTION",
+    "PERFORMANCE",
+    "PERSUASION",
+    "RELIGION",
+    "SLEIGHT OF HAND",
+    "STEALTH",
+    "SURVIVAL"
+};
+
+#define NUM_COMMANDS 12
 string COMMANDS[NUM_COMMANDS] = {
     "D4 - Roll a random value between 1 and 4",
     "D6 - Roll a random value between 1 and 6",
@@ -45,6 +74,7 @@ string COMMANDS[NUM_COMMANDS] = {
     "GET - Get the stats for a specified character",
     "ADLEVEL - Increment the level value for a specified character",
     "CREATE - Create a new character",
+    "EXIT - Closes this application",
     "HELP - Show this help prompt"
 };
 
@@ -87,7 +117,7 @@ void get(string name) {
     }
     inFile >> val;
     while(inFile) {
-        if(i == 8) {
+        if(i == 14 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13) {
             cout << STATS[i] << ": +" << val << endl;
         }
         else {
@@ -101,7 +131,7 @@ void get(string name) {
 void adlevel(string name) {
     int i=0;
     ifstream inFile;
-    int newStats[10];
+    int newStats[16];
     string oldStat, fileName = name + ".txt";
     inFile.open(fileName);
     if(!inFile) {

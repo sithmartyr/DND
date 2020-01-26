@@ -27,7 +27,7 @@ int GetArraySize(string str) {
 
 int main() {
     string input;
-    int argc;
+    int argc = 1;
     while(1) {
         cout << ">";
         getline(cin, input);
