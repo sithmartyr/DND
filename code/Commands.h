@@ -20,10 +20,12 @@
 
 using namespace std;
 
-#define NUM_STATS 16
+#define NUM_STATS 18
 string STATS[NUM_STATS] = {
     "NAME",
     "LEVEL",
+    "PROFIFIENCY BONUS",
+    "WALKING SPEED",
     "STRENGTH",
     "STRENGTH BONUS",
     "DEXTERITY",
@@ -79,31 +81,31 @@ string COMMANDS[NUM_COMMANDS] = {
 };
 
 int d4() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 4 + 1;;
 }
 int d6() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 6 + 1;
 }
 int d8() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 8 + 1;
 }
 int d10() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 10;
 }
 int d12() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 12 + 1;
 }
 int d20() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 20 + 1;
 }
 int d100() {
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(nullptr)));
     return rand() % 100;
 }
 void get(string name) {
@@ -117,7 +119,7 @@ void get(string name) {
     }
     inFile >> val;
     while(inFile) {
-        if(i == 14 || i == 3 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13) {
+        if(i == 2 || i == 5 || i == 7 || i == 9 || i == 11 || i == 13 || i == 15 || i == 16) {
             cout << STATS[i] << ": +" << val << endl;
         }
         else {
@@ -131,7 +133,7 @@ void get(string name) {
 void adlevel(string name) {
     int i=0;
     ifstream inFile;
-    int newStats[16];
+    int newStats[18];
     string oldStat, fileName = name + ".txt";
     inFile.open(fileName);
     if(!inFile) {
@@ -185,64 +187,44 @@ void help() {
 }
 
 
-int RunCommand(string cmd, string arg1, int argc) {
-    if(cmd == "d4" || cmd == "D4") {
+int RunCommand(string cmd, string arg1 = "", int argc = 1) {
+    if(cmd == "d4" || cmd == "D4")
         cout << d4() << endl;
-    }
-    else if(cmd == "d6" || cmd == "D6") {
+    else if(cmd == "d6" || cmd == "D6")
         cout << d6() << endl;
-    }
-    else if(cmd == "d8" || cmd == "D8") {
+    else if(cmd == "d8" || cmd == "D8")
         cout << d8() << endl;
-    }
-    else if(cmd == "d10" || cmd == "D10") {
+    else if(cmd == "d10" || cmd == "D10")
         cout << d10() << endl;
-    }
-    else if(cmd == "d12" || cmd == "D12") {
+    else if(cmd == "d12" || cmd == "D12")
         cout << d12() << endl;
-    }
-    else if(cmd == "d20" || cmd == "D20") {
+    else if(cmd == "d20" || cmd == "D20")
         cout << d20() << endl;
-    }
-    else if(cmd == "d100" || cmd == "D100") {
+    else if(cmd == "d100" || cmd == "D100")
         cout << d100() << endl;
-    }
     else if(cmd == "get" || cmd == "Get" || cmd == "GET") {
         if(argc < 2)
             cout << "Usage: get <Character Name>" << endl;
-        else {
+        else
             get(arg1);
-        }
     }
     else if(cmd == "adlevel" || cmd == "Adlevel" || cmd == "ADLEVEL") {
         if(argc < 2)
             cout << "Usage: adlevel <Character Name>" << endl;
-        else {
+        else
             adlevel(arg1);
-        }
     }
     else if(cmd == "create" || cmd == "Create" || cmd == "CREATE") {
         if(argc < 2)
             cout << "Usage: create <Character Name>" << endl;
-        else {
+        else
             create(arg1);
-            return 0;
-        }
     }
-    /*else if(cmd == "clear" || cmd == "Clear" || cmd == "CLEAR" || cmd == "cls" || cmd == "Cls" || cmd == "CLS") {
-        clear();
-    }*/
-    else if(cmd == "help" || cmd == "Help" || cmd == "HELP") {
+    else if(cmd == "help" || cmd == "Help" || cmd == "HELP")
         help();
-    }
-    else if(cmd == "exit" || cmd == "Exit" || cmd == "EXIT") {
+    else if(cmd == "exit" || cmd == "Exit" || cmd == "EXIT")
         return 1;
-    }
-    else if(cmd == "" || cmd == " ") {
-        return 0;
-    }
-    else {
+    else
         cout << "Unknown command: " << cmd << endl;
-    }
     return 0;
 }

@@ -48,9 +48,17 @@ int main() {
                 break;
         }
         cout << "\n";
-        if(RunCommand(command[0], command[1], argc) == 1) {
-            return 0;
+        if(argc > 1) {
+            if(RunCommand(command[0], command[1], argc) == 1) {
+                return 0;
+            }
         }
+        else {
+            if(RunCommand(command[0]) == 1) {
+                return 0;
+            }
+        }
+        
         cout << "\n";
     }
 }
